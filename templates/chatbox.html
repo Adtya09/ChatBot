@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Siya</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{{url_for('static',filename='css/chat.css')}}">
+</head>
+<body>
+    <div class="message_box">
+        <div id="div1"class="message_logs">			
+        <!--All chatting element will be appended here-->
+		</div>
+        <div class="chat-form">
+            <textarea id="inp" placeholder="Enter your query here."></textarea>
+            <button id="user" onclick=userClick()>user</button>
+			<button id="bot" onclick=botClick()>bot</button>
+        </div>
+    </div>
+</body>
+<script>
+var input = document.getElementById("inp");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("user").click();
+   document.getElementById("inp").value="";
+  }
+});
+function userClick(){
+
+var inp=document.getElementById("inp").value;
+if(inp.trim()=="")
+{
+alert("Please type message");
+return false;
+}
+
+var div = document.createElement("div");
+var div2 = document.createElement("div");
+var para = document.createElement("p");
+var node = document.createTextNode(inp);
+div.setAttribute("id","userdiv");
+div2.setAttribute("id","userdiv2");
+para.setAttribute("id","usermsg");
+
+para.appendChild(node);
+div.appendChild(para);
+
+
+var photo=document.createElement("IMG");
+photo.setAttribute("id","userPhoto");
+photo.src="{{url_for('static',filename='images/User1.jpg')}}"
+
+div2.appendChild(photo);
+
+var element = document.getElementById("div1");
+element.appendChild(div2);
+element.appendChild(div);
+document.getElementById("inp").value="";
+}
+function botClick(){
+
+var inp=document.getElementById("inp").value;
+if(inp.trim()=="")
+{
+alert("Please type message");
+return false;
+}
+var div = document.createElement("div");
+var div2 = document.createElement("div");
+var para = document.createElement("p");
+var node = document.createTextNode(inp);
+div.setAttribute("id","botdiv");
+div2.setAttribute("id","botdiv2");
+para.setAttribute("id","botmsg");
+
+para.appendChild(node);
+div.appendChild(para);
+
+
+var photo=document.createElement("IMG");
+photo.setAttribute("id","botPhoto");
+photo.src="{{url_for('static',filename='images/Bot1.jpg')}}"
+photo.style=
+
+div2.appendChild(photo);
+
+var element = document.getElementById("div1");
+element.appendChild(div);
+element.appendChild(div2);
+//element.appendChild(div);
+document.getElementById("inp").value="";
+}
+</script>
+</html>
