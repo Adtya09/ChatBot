@@ -5,22 +5,24 @@
     box-sizing: border-box;
 }
 body{
-    background: lightblue;
+    background: #ed1d2729;
 }
 .message_box{
     width: 500px;
     min-width: 390px;
     height: 600px;
-    background: #fff;
+    background: #0e0e0ed6;
     padding: 25px;
     margin: 20px auto;
     box-shadow: 0 3px #ccc;
+    box-shadow: 1px 1px 11px 20px #0e0e0e;
+    border-radius: 4%;
 }
 .message_logs{
     padding: 10px;
     width: 100%;
     height: 450px;
-    background: #eee;
+    background: #fbfbfb;
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -70,22 +72,27 @@ body{
     background: rgba(0,0,0,0.1);
 }
 .chat-form button{
-    background: #1ddced;
+   background: #cecece;
     padding: 5px 15px;
-    font-size: 30px;
-    color: #fff;
+    font-size: 16px;
+    color: #0e0e0e;
     border: none;
-    margin: 0 10px;
-    border-radius: 3px;
-    box-shadow: 0 3px 0 #0eb2c1;
-    cursor: pointer;
+     margin-left:10px;
+     margin-top:10px;
+     margin-bottom:10px;
 
-    -webkit-transition: background .2s ease ;
-    -moz-transition: background .2s ease  ;
-    -o-transition: background .2s ease  ;
+     margin-right:5px;
+     border-radius: 40%;
+    box-shadow: 0 3px 0 #c10e5a;
+    cursor: pointer;
+    -webkit-transition: background .2s ease;
+    -moz-transition: background .2s ease;
+    -o-transition: background .2s ease;
+    font-family:cursive;
+
 }
 .chat-form button:hover{
-    background: #13c8d9;
+    background: #fdd835;
 }
 
 #botdiv{
@@ -93,11 +100,11 @@ body{
     flex-flow: row wrap;
     align-items: flex-start;
     margin-bottom: 10px;
-
-	background: #ff4d88;
+    float:left;
+	background: #baed1ddb;
 	order: -1;
 	width: 80%;
-    padding: 3px;
+    padding: 1px;
     margin-left:5px;
 	margin-top:5px;
     border-radius: 10px;
@@ -112,7 +119,7 @@ body{
 }
 #chatbox {
     border: 3px solid black;
-    
+
 }
 
 #userdiv{
@@ -120,11 +127,11 @@ body{
     flex-flow: row wrap;
     align-items: flex-start;
     margin-bottom: 10px;
-
-	background: #1ddced;
+    float:left;
+	background: #4dfff7;
 	order: -1;
 	width: 80%;
-    padding: 3px;
+    padding: 1px;
     margin-left:5px;
 	margin-top:5px;
     border-radius: 10px;
@@ -135,8 +142,8 @@ body{
 
 #userdiv2{
 
-	float:left; 
-	
+	float:left;
+
 }
 
 #userPhoto{
@@ -148,7 +155,7 @@ body{
 	border:3px;
 	float:left;
 	margin-top:5px;
-	
+
 }
 #botPhoto{
 	width: 55px;
@@ -169,20 +176,83 @@ body{
 	word-wrap: break-word;
 	overflow: hidden;
     text-overflow: ellipsis;
-	
+    color:#000000;
+    font-family:cursive;
 }
 #botmsg{
 	margin:5px 10px 0;
 	padding: 10px;
 	border:3px;
-	float:left; 
+	float:left;
 	word-wrap: break-word;
 	overflow: hidden;
     text-overflow: ellipsis;
+    color:#000000;
+    font-family:cursive;
 }
 img{
 	width=100%;
 }
-div#userdiv {
+input#dislike {
     float: right;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+
+.likeButton {
+    background: #461ded;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+     margin-top:10px;
+     margin-bottom:10px;
+     margin-left:5x;
+     margin-right:5px;
+     border-radius: 40%;
+    box-shadow: 0 3px 0 #c10e5a;
+    cursor: pointer;
+    -webkit-transition: background .2s ease;
+    -moz-transition: background .2s ease;
+    -o-transition: background .2s ease;
+    font-family:cursive;
+}
+#botdivwrong{
+	display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    float:left;
+	background: #ffffff;
+	order: -1;
+	width: 80%;
+    padding: 1px;
+    margin-left:5px;
+	margin-top:5px;
+    border-radius: 10px;
+    color: #FFF;
+    font-size: 16px;
+
+}
+#botWrongMsg{
+margin:5px 10px 0;
+	padding: 10px;
+	border:3px;
+	float:left;
+	word-wrap: break-word;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    font-family:cursive;
+color:red;
+}
+#imgCenter{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 7px;
+    background: black;
+    border-radius:50%;
+    width:40px;
 }

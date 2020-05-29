@@ -1,12 +1,15 @@
 # import statements
+from itertools import dropwhile
+
 from flask import Flask, render_template, request
 from tkinter import *
 from tkinter import ttk
 from tkinter.scrolledtext import *
 from chatterbot import ChatBot
 from chatterbot.trainers import ChatterBotCorpusTrainer
-
-
+import time
+from chatterbot.logic import  BestMatch
+from numpy import finfo
 
 app=Flask(__name__)
 
@@ -30,12 +33,17 @@ chatbot = ChatBot(
 trainer = ChatterBotCorpusTrainer(chatbot)
 print("Training Started")
 
+
+USER_QUES=""
+count=0
+alternateResp = ["Amit"]
+Size=0
 ##Comment below
 
-#trainer.train('chatterbot.corpus.training.Version_1')
+#trainer.train('chatterbot.corpus.siya.training_files')
 def writeToFileQ(data):
     file = open(
-        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\training\\Q2A.yml',
+        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\siya\\evaluation\\Q2A.yml',
         'a')
     file.write(data)
     file.close()
@@ -44,10 +52,40 @@ def writeToFileQ(data):
 # function to write 'Questions Answered' to a file for Evaluation.
 def writeToFileA(data):
     file = open(
-        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\training\\A2Q.yml',
+        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\siya\\evaluation\\A2Q.yml',
         'a')
     file.write(data)
     file.close()
+
+def matchedResponses(ques):
+    getAllResp = str([BestMatch.allResponse])
+    getAllResp = getAllResp.replace("[", " ")
+    getAllResp = getAllResp.replace("]", " ")
+    getAllResp = getAllResp.replace("<", " ")
+    getAllResp = getAllResp.strip(" ")
+    # print("After \n"+ a)
+    # getAllResp=getAllResp+','
+    tempGA = getAllResp.split('>,')
+    # print(tempGA)
+    global alternateResp
+    alternateResp.clear()
+    k = 1
+    for i in tempGA:
+        s = i[i.index(":") + 1:len(i)]
+        if (k == len(tempGA)):
+            s = s[:len(s) - 1]
+
+        k = k + 1
+        alternateResp.append(s)
+
+
+    global Size ,count
+    count=0
+    Size=0
+    tempSet=set(alternateResp)
+    alternateResp=list(tempSet)
+
+    #print(alternateResp)
 
 
 @app.route("/")
@@ -56,8 +94,19 @@ def chatWindow():
     return render_template("test.html")
 @app.route("/getResponse")
 def getresponse():
+
     ques=request.args.get("msg")
+    ques=str(ques).lower()
+    USER_QUES=ques
     bot_response=str(chatbot.get_response(ques))
+
+
+    if bot_response != 'Sorry ,I did not get you !!.':
+        if alternateResp:
+            matchedResponses(USER_QUES)
+            print("Altres main :",alternateResp)
+
+
     if ("|" in str(bot_response)):
         temp = str(bot_response).replace("|", "<br>")
         bot_response=temp
@@ -69,14 +118,47 @@ def getresponse():
         writeToFileA("- - " + ques + "\n")
         writeToFileA("  - " + str(bot_response) + "\n")
 
+    time.sleep(0.5)
     return bot_response
+
+@app.route("/dislike")
+def dislikedResponse():
+    req=request.args.get("wrongRes")
+    global  alternateResp
+    global count
+    global Size
+    nextResponse =""
+    print('Req='+req)
+    print(alternateResp)
+    for i in range(count,len(alternateResp)):
+        print(count)
+        if(req==alternateResp[i]):
+            count+=1
+            continue
+
+        else:
+            nextResponse=alternateResp[count]
+            count += 1
+            break
+
+    if(Size>=len(alternateResp)):
+        nextResponse="Apologies for the wrong info !!..<br>&nbsp&nbsp&nbsp&nbsp&nbsp I am Still Learning.."
+    Size += 1
+    if ("|" in str(nextResponse)):
+        temp = str(nextResponse).replace("|", "<br>")
+        bot_response=temp
+    print('Next='+ nextResponse)
+    return nextResponse
+
+
+
+
+
 
 
 
 if __name__ =='__main__':
-    app.run()
-
-
+    app.run(debug=True)
 
 
 
