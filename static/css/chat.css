@@ -256,3 +256,40 @@ color:red;
     border-radius:50%;
     width:40px;
 }
+
+
+.btn {
+  border: none;
+  border-color:#000000
+  background-color: inherit;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-block;
+  text-align:center;
+   color:black
+    margin-top:10px;
+    margin-bottom:10px;
+    font-family:cursive;
+    border-radius:10%;
+}
+
+
+
+
+
+
+
+
+.btn:hover {background: #ffc10769;}
+
+.leftB{
+float:left;
+margin-left:60px;
+margin-right:5px;
+}
+.rightB{
+float:left;
+margin-right:30px;
+margin-left:5px;
+}

@@ -10,6 +10,12 @@
 <div id="chatbox" class="message_logs">
      <div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div>
      <div id="botdiv"><p id="botmsg" class="botText">Hello, I am Siya. <br> How may I help You.. </p></div>
+    <div id="optBtnDiv">
+       <button class="btn  leftB" id="access" onclick="makeButtonRequest('Raise Access')" value="Raise Access">Raise Access</button>
+        <button class="btn rightB " is="info" onclick="makeButtonRequest('Team Info')" value="Team Info">Team Info</button>
+        <button class="btn leftB" id="status" onclick="makeButtonRequest('Status Check')" value="Status Check">Status Check</button>
+        <button class="btn rightB" id="training" onclick="makeButtonRequest('Training Modules')" value="Training Modules">Training Modules</button>
+    </div>
 
 </div>
 <div id="userInput" class="chat-form">
@@ -62,6 +68,7 @@ if(rawText.trim()=="")
 alert("Please type a message");
 return false;
 }
+
 var userHtml='<div id="userdiv2"><img id="userPhoto" src="{{url_for('static',filename='images/User1.jpg')}}"></img></div>'
 +'<div id="userdiv"><p id="usermsg" class="userText">'+rawText +' </p></div>'
 //var userHtml='<div id="userdiv"><div id="userdiv2"><img id="userPhoto" src="{{url_for('static',filename='images/User1.jpg')}}"></img><p id="usermsg" class="userText">'+rawText+'</p></div></div>';
@@ -85,6 +92,17 @@ chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 $("#buttonInp").click(function(){
+
+var rawText=$("#inp").val();
+rawText=rawText.trim();
+var HELP='help';
+if(HELP == rawText)
+{
+
+generateButtons();
+
+return false;
+}
 getBotResponse();
 var chatHistory = document.getElementById("chatbox");
 chatHistory.scrollTop = chatHistory.scrollHeight;
@@ -96,7 +114,62 @@ dislike();
 var chatHistory = document.getElementById("chatbox");
 chatHistory.scrollTop = chatHistory.scrollHeight;
 });
+function getResponseForButton(ques)
+{
 
+$.get("/getResponse",{msg:ques}).done(function(data){
+
+bot_wrong_resp=data;
+var botHtml='<div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div><div id="botdiv"><p id="botmsg" class="botText">'+data+ '</p></div>';
+$("#chatbox").append(botHtml);
+document.getElementById('userInput').scrollIntoView({block:'start',behaviour:'smooth'});
+var chatHistory = document.getElementById("chatbox");
+chatHistory.scrollTop = chatHistory.scrollHeight;
+});
+
+
+
+}
+
+function makeButtonRequest(inp)
+{
+var inputBtnValue=inp;
+var ques=""
+if(inputBtnValue == "Raise Access")
+{
+    ques="what access?";
+}
+else if(inputBtnValue == "Team Info")
+{
+    ques="m&p team"
+}
+else if(inputBtnValue == "Status Check")
+{
+    ques="status check"
+}
+else
+{
+    ques="hello"
+}
+
+getResponseForButton(ques);
+
+}
+
+function generateButtons()
+{
+  var buttonSet=  '<div id="optBtnDiv">'+
+       '<button class="btn  leftB" id="access" onclick="makeButtonRequest(\'Raise Access\')" value="Raise Access">Raise Access</button>'+
+        '<button class="btn rightB " is="info" onclick="makeButtonRequest(\'Team Info\')" value="Team Info">Team Info</button>'+
+        '<button class="btn leftB" id="status" onclick="makeButtonRequest(\'Status Check\')" value="Status Check">Status Check</button>'+
+        '<button class="btn rightB" id="training" onclick="makeButtonRequest(\'Training Modules\')" value="Training Modules">Training Modules</button>'+
+    '</div>';
+   console.log(buttonSet);
+    $("#chatbox").append(buttonSet);
+var chatHistory = document.getElementById("chatbox");
+chatHistory.scrollTop = chatHistory.scrollHeight;
+
+}
 
 </script>
 </html>

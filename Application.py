@@ -1,5 +1,6 @@
 # import statements
 from itertools import dropwhile
+from netrc import netrc
 
 from flask import Flask, render_template, request
 from tkinter import *
@@ -146,7 +147,7 @@ def dislikedResponse():
     Size += 1
     if ("|" in str(nextResponse)):
         temp = str(nextResponse).replace("|", "<br>")
-        bot_response=temp
+        nextResponse=temp
     print('Next='+ nextResponse)
     return nextResponse
 
