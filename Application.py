@@ -91,8 +91,7 @@ def matchedResponses(ques):
 
 @app.route("/")
 def chatWindow():
-    #return render_template("chatbox.html")
-    return render_template("test.html")
+    return render_template("Siya_UI.html")
 @app.route("/getResponse")
 def getresponse():
 
@@ -119,7 +118,7 @@ def getresponse():
         writeToFileA("- - " + ques + "\n")
         writeToFileA("  - " + str(bot_response) + "\n")
 
-    time.sleep(0.5)
+    time.sleep(1.5)
     return bot_response
 
 @app.route("/dislike")
@@ -149,6 +148,7 @@ def dislikedResponse():
         temp = str(nextResponse).replace("|", "<br>")
         nextResponse=temp
     print('Next='+ nextResponse)
+    time.sleep(1.5)
     return nextResponse
 
 

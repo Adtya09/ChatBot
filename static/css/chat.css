@@ -5,7 +5,7 @@
     box-sizing: border-box;
 }
 body{
-    background: #ed1d2729;
+    background: #9e9e9e38;
 }
 .message_box{
     width: 500px;
@@ -101,7 +101,7 @@ body{
     align-items: flex-start;
     margin-bottom: 10px;
     float:left;
-	background: #baed1ddb;
+	background: #ed1d1d26;
 	order: -1;
 	width: 80%;
     padding: 1px;
@@ -128,7 +128,7 @@ body{
     align-items: flex-start;
     margin-bottom: 10px;
     float:left;
-	background: #4dfff7;
+	background: #4dfff761;
 	order: -1;
 	width: 80%;
     padding: 1px;
@@ -292,4 +292,12 @@ margin-right:5px;
 float:left;
 margin-right:30px;
 margin-left:5px;
+}
+
+#loadPhoto{
+width:100px;
+height:90px;
+display:block;
+margin-left:auto;
+margin-right:auto;
 }

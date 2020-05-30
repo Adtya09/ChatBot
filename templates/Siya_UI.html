@@ -42,7 +42,11 @@ input.addEventListener("keyup", function(event) {
 
 function dislike()
 {
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
 $.get("/dislike",{wrongRes:bot_wrong_resp}).done(function(data){
+var load=document.getElementById("loadPhoto");
+$("#loadPhoto").remove();
 var ans="Apologies!! Let me Correct my response!!";
 var botHtmlDislike='<div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div><div id="botdivwrong"><p id="botWrongMsg" class="botText">'+ans+ '</p></div>';
 
@@ -62,6 +66,7 @@ chatHistory.scrollTop = chatHistory.scrollHeight;
 function getBotResponse()
 {
 
+
 var rawText=$("#inp").val();
 if(rawText.trim()=="")
 {
@@ -71,17 +76,18 @@ return false;
 
 var userHtml='<div id="userdiv2"><img id="userPhoto" src="{{url_for('static',filename='images/User1.jpg')}}"></img></div>'
 +'<div id="userdiv"><p id="usermsg" class="userText">'+rawText +' </p></div>'
-//var userHtml='<div id="userdiv"><div id="userdiv2"><img id="userPhoto" src="{{url_for('static',filename='images/User1.jpg')}}"></img><p id="usermsg" class="userText">'+rawText+'</p></div></div>';
 $("#inp").val("");
 $("#chatbox").append(userHtml);
 document.getElementById("userInput").scrollIntoView({block:'start',behaviout:'smooth'});
 
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
 $.get("/getResponse",{msg:rawText}).done(function(data){
-
+var load=document.getElementById("loadPhoto");
+$("#loadPhoto").remove();
 bot_wrong_resp=data;
 var botHtml='<div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div><div id="botdiv"><p id="botmsg" class="botText">'+data+ '</p></div>';
 
-//var botHtml='<div id="botdiv"><div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img><p id="botmsg" class="botText">'+data+'</p></div></div>';
 $("#chatbox").append(botHtml);
 document.getElementById('userInput').scrollIntoView({block:'start',behaviour:'smooth'});
 var chatHistory = document.getElementById("chatbox");
@@ -116,9 +122,11 @@ chatHistory.scrollTop = chatHistory.scrollHeight;
 });
 function getResponseForButton(ques)
 {
-
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
 $.get("/getResponse",{msg:ques}).done(function(data){
-
+var load=document.getElementById("loadPhoto");
+$("#loadPhoto").remove();
 bot_wrong_resp=data;
 var botHtml='<div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div><div id="botdiv"><p id="botmsg" class="botText">'+data+ '</p></div>';
 $("#chatbox").append(botHtml);
@@ -164,7 +172,7 @@ function generateButtons()
         '<button class="btn leftB" id="status" onclick="makeButtonRequest(\'Status Check\')" value="Status Check">Status Check</button>'+
         '<button class="btn rightB" id="training" onclick="makeButtonRequest(\'Training Modules\')" value="Training Modules">Training Modules</button>'+
     '</div>';
-   console.log(buttonSet);
+
     $("#chatbox").append(buttonSet);
 var chatHistory = document.getElementById("chatbox");
 chatHistory.scrollTop = chatHistory.scrollHeight;
