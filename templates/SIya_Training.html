@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Siya</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/chat.css')}}">
+    <script src={{url_for('static',filename='javascript/jquery.js')}}></script>
+	</head>
+<body>
+<div class="message_box" id="messageBox">
+<div id="chatbox" class="message_logs">
+     <div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div>
+     <div id="botdiv"><p id="botmsg" class="botText">Welcome to training mode . <br> Please type question and corresponding answers. </p></div>
+</div>
+<div id="userInput" class="chat-form">
+    <textarea type="text" id="inp" placeholder="Enter Question" name="msg"></textarea>
+    <button type="submit" id="buttonInp"  value="send">Send</button>
+</div>
+    <img src="{{url_for('static',filename='images/LogoCenter.png')}}" id="imgCenter" alt="Image">
+
+</div>
+</body>
+
+<script>
+
+var qaMod=1;
+var input = document.getElementById("inp");
+input.addEventListener("keyup", function(event) {
+  if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("buttonInp").click();
+   document.getElementById("inp").value="";
+  }
+});
+
+function setQuestion()
+{
+var rawText=$("#inp").val();
+if(rawText.trim()=="")
+{
+alert("Please type a question");
+return false;
+}
+var quesHtml='<div id="userdiv2"><img id="userPhoto" src="{{url_for('static',filename='images/User1.jpg')}}"></img></div>'
++'<div id="userdiv"><p id="usermsg" class="userText">'+rawText +' </p></div>';
+$("#inp").val("");
+$("#chatbox").append(quesHtml);
+document.getElementById("userInput").scrollIntoView({block:'start',behaviout:'smooth'});
+
+$.get("/writeQuestion",{ques:rawText}).done(function(data){
+var expectedRes="ok";
+if(data == expectedRes)
+{
+    qaMod=qaMod+1;
+}
+else{
+    alert("Error occurred !!..");
+}
+});
+document.getElementById("inp").placeholder="Enter Answer";
+
+}
+function setAnswer()
+{
+document.getElementById("inp").placeholder="Enter Answer";
+var rawText=$("#inp").val();
+if(rawText.trim()=="")
+{
+alert("Please type a answer");
+return false;
+}
+
+var botHtml='<div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div><div id="botdiv"><p id="botmsg" class="botText">'+rawText+ '</p></div>';
+$("#inp").val("");
+$("#chatbox").append(botHtml);
+document.getElementById("userInput").scrollIntoView({block:'start',behaviout:'smooth'});
+$.get("/writeAnswer",{ans:rawText}).done(function(data){
+var expectedRes="ok";
+if(data == expectedRes)
+{
+    qaMod=qaMod+1;
+}
+else{
+    alert("Error occurred !!..");
+}
+});
+document.getElementById("inp").placeholder="Enter Question";
+}
+
+$("#buttonInp").click(function(){
+if(qaMod%2==0)
+{
+setAnswer();
+}
+else{
+setQuestion();
+}
+var chatHistory = document.getElementById("chatbox");
+chatHistory.scrollTop = chatHistory.scrollHeight;
+});
+
+
+
+
+</script>
+</html>

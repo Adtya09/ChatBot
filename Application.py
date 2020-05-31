@@ -27,7 +27,7 @@ chatbot = ChatBot(
     , preprocessors=['chatterbot.preprocessors.clean_whitespace'], read_Only=False)
 
 ##### It is used to drop the  existing database .
-#chatbot.storage.drop()
+chatbot.storage.drop()
 
 ########trainer is used to train the chatbot for first time.
 
@@ -41,7 +41,27 @@ alternateResp = ["Amit"]
 Size=0
 ##Comment below
 
-#trainer.train('chatterbot.corpus.siya.training_files')
+trainer.train('chatterbot.corpus.siya.training_files')
+
+def writeToFileQues(ques):
+    file = open(
+        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\siya\\training_files\\training_online.yml',
+        'a')
+    temp= '- - '
+    temp=temp+ques
+    file.write(temp)
+    file.close()
+
+def writeToFileAns(ans):
+    file = open(
+        'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\siya\\training_files\\training_online.yml',
+        'a')
+    temp= '  - '
+    temp=temp+ans
+    file.write(temp)
+    file.close()
+
+
 def writeToFileQ(data):
     file = open(
         'C:\\Users\\AmitJ\\AppData\\Local\\Programs\\Python\\Python36\\Lib\\site-packages\\chatterbot_corpus\\data\\siya\\evaluation\\Q2A.yml',
@@ -118,7 +138,7 @@ def getresponse():
         writeToFileA("- - " + ques + "\n")
         writeToFileA("  - " + str(bot_response) + "\n")
 
-    time.sleep(1.5)
+    time.sleep(1)
     return bot_response
 
 @app.route("/dislike")
@@ -148,12 +168,43 @@ def dislikedResponse():
         temp = str(nextResponse).replace("|", "<br>")
         nextResponse=temp
     print('Next='+ nextResponse)
-    time.sleep(1.5)
+    time.sleep(1)
     return nextResponse
 
+@app.route("/validateLogin" ,methods=["POST","GET"])
+def validateLogin():
+    print("In validate login")
+    user = request.args.get("username")
+    user = str(user).lower()
+    password = request.args.get("pass")
+    print(user,password)
+    if( user=="trainer1" and password=="trainer1234"):
+        return render_template("Siya_Training.html")
+    else:
+        return render_template("login.html",data="error")
 
 
 
+@app.route("/training")
+def training():
+    return render_template("Siya_Training.html")
+
+@app.route("/login")
+def login():
+    return render_template("login.html")
+
+@app.route("/writeQuestion")
+def writeQues():
+    ques=request.args.get("ques")
+    writeToFileQues(ques)
+    return "ok"
+
+
+@app.route("/writeAnswer")
+def writeAnswer():
+    ans = request.args.get("ans")
+    writeToFileAns(ans)
+    return "ok"
 
 
 

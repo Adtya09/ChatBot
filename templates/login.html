@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
+    <script src={{url_for('static',filename='javascript/jquery.js')}}></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in</title>
+</head>
+
+<body>
+  {% if(data=="error")%}
+  <script>alert("Wrong Credentials..")</script>
+  {% endif %}
+  <div class="main">
+    <p class="sign" align="center">Sign in</p>
+    <form class="form1" action="{{url_for('validateLogin')}}",method=post>
+      <input class="un " id="user" type="text" align="center" placeholder="Username" name="username">
+      <input class="pass" id="pass" type="password" align="center" placeholder="Password" name="pass">
+      <input type="submit" class="submit" align="center" value="Sign In" onS>
+        <p class="forgot" align="center"><a href="#">Forgot Password?</a></p>
+
+    </form>
+    </div>
+
+</body>
+<script>
+
+</script>
+
+</html>

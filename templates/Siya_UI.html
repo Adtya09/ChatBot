@@ -23,7 +23,7 @@
     <button type="submit" id="dislike" value="Dislike" class="likeButton" >Dislike</button>
     <button type="submit" id="like" value="like" class="likeButton">Like</button>
 </div>
-    <img src="{{url_for('static',filename='images/LogoCenter.png')}}" id="imgCenter" alt="Image">
+    <img src="{{url_for('static',filename='images/LogoCenter.png')}}" id="imgCenter" alt="Image" onclick="trainingMode()" >
     <button type="submit" id="buttonInp" hidden="true" value="send">Send</button>
 
 </div>
@@ -65,8 +65,6 @@ chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 function getBotResponse()
 {
-
-
 var rawText=$("#inp").val();
 if(rawText.trim()=="")
 {
@@ -166,6 +164,7 @@ getResponseForButton(ques);
 
 function generateButtons()
 {
+
   var buttonSet=  '<div id="optBtnDiv">'+
        '<button class="btn  leftB" id="access" onclick="makeButtonRequest(\'Raise Access\')" value="Raise Access">Raise Access</button>'+
         '<button class="btn rightB " is="info" onclick="makeButtonRequest(\'Team Info\')" value="Team Info">Team Info</button>'+
@@ -177,6 +176,13 @@ function generateButtons()
 var chatHistory = document.getElementById("chatbox");
 chatHistory.scrollTop = chatHistory.scrollHeight;
 
+}
+function trainingMode()
+{
+if(confirm("In Training mode"))
+{
+     window.open('http://127.0.0.1:5000/login');
+}
 }
 
 </script>
