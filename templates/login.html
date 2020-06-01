@@ -14,7 +14,7 @@
   {% endif %}
   <div class="main">
     <p class="sign" align="center">Sign in</p>
-    <form class="form1" action="{{url_for('validateLogin')}}",method=post>
+    <form class="form1" action="{{url_for('validateLogin')}}",method=post onsubmit="return validate()">
       <input class="un " id="user" type="text" align="center" placeholder="Username" name="username">
       <input class="pass" id="pass" type="password" align="center" placeholder="Password" name="pass">
       <input type="submit" class="submit" align="center" value="Sign In" onS>
@@ -25,7 +25,23 @@
 
 </body>
 <script>
+function validate()
+{
+  var user=document.getElementById("user").value;
+  var pass=document.getElementById("pass").value;
+  if(user.trim()=="")
+  {
+  alert("Username can not be empty");
+  return false;
+  }
+    if(pass.trim()=="")
+  {
+  alert("Password can not be empty");
+  return false;
+  }
 
+  return true;
+}
 </script>
 
 </html>
