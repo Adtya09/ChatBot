@@ -25,7 +25,9 @@ if(ques.strip()!=""):
             table += "    <td>{0}</td>\n".format(column.strip())
         table += "    </tr>\n"
 
-    table += "    </table>"
+    table += "    </table>\n"
+
+    table=table.replace(";;",",")
 
     fileout.writelines(table)
     fileout.close()

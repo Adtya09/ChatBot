@@ -2,7 +2,7 @@
 from itertools import dropwhile
 from netrc import netrc
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,session
 from tkinter import *
 from tkinter import ttk
 from tkinter.scrolledtext import *
@@ -13,7 +13,7 @@ from chatterbot.logic import  BestMatch
 from numpy import finfo
 
 app=Flask(__name__)
-
+app.secret_key = "super secret key"
 chatbot = ChatBot(
     'Dug Dug',
     storage_adapter='chatterbot.storage.MongoDatabaseAdapter',
@@ -173,21 +173,25 @@ def dislikedResponse():
 
 @app.route("/validateLogin" ,methods=["POST","GET"])
 def validateLogin():
-    print("In validate login")
-    user = request.args.get("username")
-    user = str(user).lower()
-    password = request.args.get("pass")
-    print(user,password)
-    if( user=="trainer1" and password=="trainer1234"):
-        return render_template("Siya_Training.html")
-    else:
-        return render_template("login.html",data="error")
+    if request.method == "POST":
+        print("In validate  login")
+        user = request.form.get("username")
+        user = str(user).lower()
+        password = request.form.get("pass")
+        print(user,password)
+        if( user=="trainer1" and password=="trainer1234"):
+            session['username'] = request.args.get("username")
+            if 'username' in session:
+                return render_template("Siya_Training.html")
+            else:
+                return render_template("login.html")
+        else:
+            return render_template("login.html",data="error")
+
+    if request.method == "GET":
+        return render_template("login.html")
 
 
-
-@app.route("/training")
-def training():
-    return render_template("Siya_Training.html")
 
 @app.route("/login")
 def login():
