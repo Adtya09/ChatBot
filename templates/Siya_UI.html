@@ -9,12 +9,17 @@
 <div class="message_box" id="messageBox">
 <div id="chatbox" class="message_logs">
      <div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div>
-     <div id="botdiv"><p id="botmsg" class="botText">Hello, I am Siya. <br> How may I help You.. </p></div>
+     <div id="botdiv"><p id="botmsg" class="botText">
+         Hello, I am Siya, your M&P assistant.<br> Please chose the below options or type your query.<br>
+         I will be happy to help </p></div>
     <div id="optBtnDiv">
-       <button class="btn  leftB" id="access" onclick="makeButtonRequest('Raise Access')" value="Raise Access">Raise Access</button>
-        <button class="btn rightB " is="info" onclick="makeButtonRequest('Team Info')" value="Team Info">Team Info</button>
-        <button class="btn leftB" id="status" onclick="makeButtonRequest('Status Check')" value="Status Check">Status Check</button>
-        <button class="btn rightB" id="training" onclick="makeButtonRequest('Training Modules')" value="Training Modules">Training Modules</button>
+       <button class="btn  leftB" id="c&rApps" onclick="buttonClickGen('CR_BUTTON')" value="C&R Apps">C&R Apps</button>
+        <button class="btn rightB " is="m&pEngapgment" onclick="buttonClickGen('Engagement')" value="M&P Engagement">M&P Engagement</button>
+        <button class="btn leftB" id="risk" onclick="makeRiskButton()" value="Risk Overview">Risk Overview</button>
+        <button class="btn rightB" id="teamSmeInfo" onclick="makeSMEButton()" value="Team SME Info">Team SME Info</button>
+        <button class="centerB" id="others"  onclick="makeOthersButton()" value="Others">Others</button>
+
+
     </div>
 
 </div>
@@ -185,5 +190,73 @@ if(confirm("In Training mode"))
 }
 }
 
+function makeCRButtons()
+{
+
+
+$("#loadPhoto").remove();
+var CRButtonRoot='<button  id ="crButton" class="centerBRoot" value="C&R Apps">C&R Apps</button>';
+$("#chatbox").append(CRButtonRoot);
+document.getElementById("crButton").style.backgroundColor="#ffc10769";
+
+var CRBUTTONS_HTML='<table class="tableButtons td "><tr><td>'+
+       '<button class="btn" id="dmr" onclick="makeButtonAlert(\'DMR\')" value="DMR">DMR</button></td>'+
+        '<td><button class="btn" id="dm62" onclick="makeButtonAlert(\'DM 6.2\')" value="DM 6.2">DM 6.2</button></td>'+
+        '<td><button class="btn"  id="dmc" onclick="makeButtonAlert(\'DMC\')" value="DMC">DMC</button></td></tr>'+
+        '<tr><td><button  class="btn" id="dm41" onclick="makeButtonAlert(\'DM 4.1\')" value="DM 4.1">DM 4.1</button></td>'+
+        '<td><button class="btn"  id="sacp" onclick="makeButtonAlert(\'SACP\')" value="SACP">SACP</button>'+
+        '<td><button class="btn" id="casc81" onclick="makeButtonAlert(\'CASC 8.1\')" value="CASC 8.1">CASC 8.1</button></td>'+
+        '</table>';
+
+        $("#chatbox").append(CRBUTTONS_HTML);
+        var chatHistory = document.getElementById("chatbox");
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+}
+
+function makeButtonAlert(data)
+{
+    alert(data);
+}
+
+
+function makeEngagementButtons()
+{
+ $("#loadPhoto").remove();
+var EngagementButtonRoot='<button  id ="engagementButton" class="centerBRoot" value="M&P Engagement">M&P Engagement</button>';
+$("#chatbox").append(EngagementButtonRoot);
+document.getElementById("engagementButton").style.backgroundColor="#ffc10769";
+
+var EngagementBUTTONS_HTML='<table class="tableButtons td "><tr><td>'+
+       '<button class="btn" id="internalProj" onclick="makeButtonAlert(\'Internal Project\')" value="Internal Project">Internal Project</button></td>'+
+        '<td><button class="btn" id="extProj" onclick="makeButtonAlert(\'External Project\')" value="External Project">External Project</button></td></tr>'+
+        '</table>';
+        $("#chatbox").append(EngagementBUTTONS_HTML);
+        var chatHistory = document.getElementById("chatbox");
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+
+
+}
+
+function buttonClickGen(data)
+{
+
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
+
+var buttonClickedCR="CR_BUTTON";
+var buttonClickedEngagement="Engagement";
+
+if(data==buttonClickedCR)
+{
+setTimeout(makeCRButtons, 2000);
+}
+
+else if(data==buttonClickedEngagement)
+{
+setTimeout(makeEngagementButtons, 2000);
+}
+
+}
 </script>
 </html>

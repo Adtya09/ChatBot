@@ -27,7 +27,7 @@ chatbot = ChatBot(
     , preprocessors=['chatterbot.preprocessors.clean_whitespace'], read_Only=False)
 
 ##### It is used to drop the  existing database .
-chatbot.storage.drop()
+#chatbot.storage.drop()
 
 ########trainer is used to train the chatbot for first time.
 
@@ -41,7 +41,7 @@ alternateResp = ["Amit"]
 Size=0
 ##Comment below
 
-trainer.train('chatterbot.corpus.siya.training_files')
+#trainer.train('chatterbot.corpus.siya.training_files')
 
 def writeToFileQues(ques):
     file = open(
