@@ -20,14 +20,14 @@ chatbot = ChatBot(
     logic_adapters=[
         {
             'import_path': 'chatterbot.logic.BestMatch',
-            'default_response': 'Sorry ,I did not get you !!.'
+            'default_response': 'Please say that again, I did not quite get that..'
         }
     ],
     database_uri='mongodb://localhost:27017/induction_Main_t2'
     , preprocessors=['chatterbot.preprocessors.clean_whitespace'], read_Only=False)
 
 ##### It is used to drop the  existing database .
-#chatbot.storage.drop()
+chatbot.storage.drop()
 
 ########trainer is used to train the chatbot for first time.
 
@@ -41,7 +41,7 @@ alternateResp = ["Amit"]
 Size=0
 ##Comment below
 
-#trainer.train('chatterbot.corpus.siya.training_files')
+trainer.train('chatterbot.corpus.siya.training_files')
 
 def writeToFileQues(ques):
     file = open(
@@ -121,7 +121,7 @@ def getresponse():
     bot_response=str(chatbot.get_response(ques))
 
 
-    if bot_response != 'Sorry ,I did not get you !!.':
+    if bot_response != 'Please say that again, I did not quite get that..':
         if alternateResp:
             matchedResponses(USER_QUES)
             print("Altres main :",alternateResp)
@@ -130,7 +130,12 @@ def getresponse():
     if ("|" in str(bot_response)):
         temp = str(bot_response).replace("|", "<br>")
         bot_response=temp
-    if str(bot_response) == "Sorry ,I did not get you !!.":
+    if ("~" in str(bot_response)):
+        temp = str(bot_response).replace("~", "?")
+        bot_response=temp
+
+
+    if str(bot_response) == "Please say that again, I did not quite get that..":
         writeToFileQ("- - " + ques + "\n")
         writeToFileQ("  - " + "\n")
 
@@ -214,7 +219,7 @@ def writeAnswer():
 
 
 if __name__ =='__main__':
-    app.run(debug=True)
+    app.run()
 
 
 

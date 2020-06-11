@@ -10,13 +10,13 @@
 <div id="chatbox" class="message_logs">
      <div id="botdiv2"><img id="botPhoto" src="{{url_for('static',filename='images/Bot1.jpg')}}"></img></div>
      <div id="botdiv"><p id="botmsg" class="botText">
-         Hello, I am Siya, your M&P assistant.<br> Please chose the below options or type your query.<br>
-         I will be happy to help </p></div>
+         Hello, I am Siya, your M&P assistant.<br> Click me or chat with me...<br>
+         Let's Go..!! </p></div>
     <div id="optBtnDiv">
        <button class="btn  leftB" id="c&rApps" onclick="buttonClickGen('CR_BUTTON')" value="C&R Apps">C&R Apps</button>
         <button class="btn rightB " is="m&pEngapgment" onclick="buttonClickGen('Engagement')" value="M&P Engagement">M&P Engagement</button>
-        <button class="btn leftB" id="risk" onclick="makeRiskButton()" value="Risk Overview">Risk Overview</button>
-        <button class="btn rightB" id="teamSmeInfo" onclick="makeSMEButton()" value="Team SME Info">Team SME Info</button>
+        <button class="btn leftB" id="risk" onclick="makeButtonRequest('Risk Overview')" value="Risk Overview">Risk Overview</button>
+        <button class="btn rightB" id="teamSmeInfo" onclick="makeButtonRequest('M&P Team Info')" value="M&P Team Info">M&P Team Info</button>
         <button class="centerB" id="others"  onclick="makeOthersButton()" value="Others">Others</button>
 
 
@@ -142,28 +142,45 @@ chatHistory.scrollTop = chatHistory.scrollHeight;
 
 }
 
-function makeButtonRequest(inp)
+function sleepHelpButtons(inp)
 {
+$("#loadPhoto").remove();
 var inputBtnValue=inp;
 var ques=""
-if(inputBtnValue == "Raise Access")
+if(inputBtnValue == "C&R Apps")
 {
-    ques="what access?";
+    makeCRButtons();
 }
-else if(inputBtnValue == "Team Info")
+else if(inputBtnValue == "M&P Engagement")
 {
-    ques="m&p team"
+    makeEngagementButtons();
 }
-else if(inputBtnValue == "Status Check")
+else if(inputBtnValue == "Risk Overview")
 {
-    ques="status check"
+    ques="RISK summary";
+    getResponseForButton(ques);
+}
+else if(inputBtnValue == "M&P Team Info")
+{
+    ques="m&p team members";
+    getResponseForButton(ques);
 }
 else
 {
-    ques="hello"
+   //ques="others";
+    //getResponseForButton(ques);
 }
 
-getResponseForButton(ques);
+
+
+}
+
+
+function makeButtonRequest(inp)
+{
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
+setTimeout(sleepHelpButtons, 1000,inp);
 
 }
 
@@ -171,10 +188,11 @@ function generateButtons()
 {
 
   var buttonSet=  '<div id="optBtnDiv">'+
-       '<button class="btn  leftB" id="access" onclick="makeButtonRequest(\'Raise Access\')" value="Raise Access">Raise Access</button>'+
-        '<button class="btn rightB " is="info" onclick="makeButtonRequest(\'Team Info\')" value="Team Info">Team Info</button>'+
-        '<button class="btn leftB" id="status" onclick="makeButtonRequest(\'Status Check\')" value="Status Check">Status Check</button>'+
-        '<button class="btn rightB" id="training" onclick="makeButtonRequest(\'Training Modules\')" value="Training Modules">Training Modules</button>'+
+       '<button class="btn  leftB" id="c&rApp" onclick="makeButtonRequest(\'C&R Apps\')" value="C&R Apps">C&R Apps</button>'+
+        '<button class="btn rightB " is="engagement" onclick="makeButtonRequest(\'M&P Engagement\')" value="M&P Engagement">M&P Engagement</button>'+
+        '<button class="btn leftB" id="risk" onclick="makeButtonRequest(\'Risk Overview\')" value="Risk Overview">Risk Overview</button>'+
+        '<button class="btn rightB" id="teamInfo" onclick="makeButtonRequest(\'M&P Team Info\')" value="M&P Team Info">M&P Team Info</button>'+
+        '<button class="centerB" id="others"  onclick="makeButtonRequest(\'Others\')" value="Others">Others</button>'+
     '</div>';
 
     $("#chatbox").append(buttonSet);
@@ -216,7 +234,25 @@ var CRBUTTONS_HTML='<table class="tableButtons td "><tr><td>'+
 
 function makeButtonAlert(data)
 {
-    alert(data);
+var loading='<div id="botdiv2"><img id="loadPhoto" src="{{url_for('static',filename='images/load.gif')}}"></img></div>';
+$("#chatbox").append(loading);
+setTimeout(CrAppSubButtons, 1000,data);
+
+}
+function CrAppSubButtons(data)
+{
+$("#loadPhoto").remove();
+var DMRButtonRoot='<button  id ="clickedButton"class="centerBRoot" value="+data+">'+data+'</button>';
+    $("#chatbox").append(DMRButtonRoot);
+
+
+    var dmrSubButtons='<table class="tableButtons td "><tr><td>'+
+       '<button class="btn" id="knowlwdgeHub" onclick="getResponseForButton(\' knowledge Hub response\')"  value="+data+">Knowledge Hub</button></td>'+
+        '<td><button class="btn" id="Access"  value="Access" onclick="getResponseForButton(\' access button\')">Access</button></td></tr>'+
+        '</table>';
+        $("#chatbox").append(dmrSubButtons);
+        var chatHistory = document.getElementById("chatbox");
+        chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
 
@@ -228,8 +264,8 @@ $("#chatbox").append(EngagementButtonRoot);
 document.getElementById("engagementButton").style.backgroundColor="#ffc10769";
 
 var EngagementBUTTONS_HTML='<table class="tableButtons td "><tr><td>'+
-       '<button class="btn" id="internalProj" onclick="makeButtonAlert(\'Internal Project\')" value="Internal Project">Internal Project</button></td>'+
-        '<td><button class="btn" id="extProj" onclick="makeButtonAlert(\'External Project\')" value="External Project">External Project</button></td></tr>'+
+       '<button class="btn" id="internalProj" onclick= "getResponseForButton(\'internal project of M&P for Internal purpose\')" value="Internal Project">Internal Project</button></td>'+
+        '<td><button class="btn" id="extProj" onclick= "getResponseForButton(\'external projects\')" value="External Project">External Project</button></td></tr>'+
         '</table>';
         $("#chatbox").append(EngagementBUTTONS_HTML);
         var chatHistory = document.getElementById("chatbox");
@@ -237,6 +273,8 @@ var EngagementBUTTONS_HTML='<table class="tableButtons td "><tr><td>'+
 
 
 }
+
+
 
 function buttonClickGen(data)
 {
@@ -249,12 +287,12 @@ var buttonClickedEngagement="Engagement";
 
 if(data==buttonClickedCR)
 {
-setTimeout(makeCRButtons, 2000);
+setTimeout(makeCRButtons, 1000);
 }
 
 else if(data==buttonClickedEngagement)
 {
-setTimeout(makeEngagementButtons, 2000);
+setTimeout(makeEngagementButtons, 1000);
 }
 
 }
